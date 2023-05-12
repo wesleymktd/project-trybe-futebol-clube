@@ -11,4 +11,9 @@ const mockTeams = [
   }
 ] as TeamsModel[]
 
-export { mockTeams }
+const mockTeam = {
+  id: 4,
+  teamName: "Corinthians"
+} as TeamsModel
+
+export { mockTeams, mockTeam }

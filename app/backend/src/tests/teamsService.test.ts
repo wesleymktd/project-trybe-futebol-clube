@@ -7,7 +7,7 @@ import { app } from '../app';
 
 import { Response } from 'superagent';
 import TeamsModel from '../database/models/TeamsModel';
-import { mockTeams } from './mocks/teamsMock';
+import { mockTeam, mockTeams } from './mocks/teamsMock';
 
 chai.use(chaiHttp);
 
@@ -31,16 +31,20 @@ describe('Teams route', () => {
 			expect(chaiHttpResponse.body).to.be.deep.equal(mockTeams)
     })
 	})
- 
 
-// 	describe('Dado um banco populado', () => {
-//     it('retorna um array populado', async () => {
-// 			// arrange => dado um contexto
-// 			sinon.stub(TeamsModel, 'findAll').resolves(mockTeams);
-// 			// act => ao executar um código
-// 			const teams = await TeamsService.getAll();
-// 			// assert => espero um resultado
-// 			expect(teams).to.be.deep.equal(mockTeams)
-//     })
-//   })
+	describe('rota GET: /teams/:id', () => {
+		let chaiHttpResponse: Response;
+    it('retorna status 200 e array de times', async () => {
+			// arrange => dado um contexto
+			sinon.stub(TeamsModel, 'findOne').resolves(mockTeam);
+			// act => ao executar um código
+			chaiHttpResponse = await chai
+				.request(app)
+				.get('/teams/1');
+			// assert => espero um resultado
+			expect(chaiHttpResponse.status).to.be.equal(200)
+			expect(chaiHttpResponse.body).to.be.deep.equal(mockTeam)
+    })
+	})
+
 });
