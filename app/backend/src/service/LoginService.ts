@@ -14,4 +14,10 @@ export default class LoginService {
     const token = authJwt.generateToken({ email, password });
     return token;
   }
+
+  public static async role(email: string) {
+    const user = await UsersModel.findOne({ where: { email } });
+    if (!user) throw new ValidateError401('User not found');
+    return { role: user.role };
+  }
 }
