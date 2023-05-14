@@ -45,6 +45,20 @@ describe('Teams route', () => {
 			expect(chaiHttpResponse.status).to.be.equal(200)
 			expect(chaiHttpResponse.body).to.be.deep.equal(mockTeam)
     })
+
+		it('Buscar por id inexistente deve retornar status 400 e err', async () => {
+			// arrange => dado um contexto
+			sinon.stub(TeamsModel, 'findOne').resolves(null);
+			// act => ao executar um código
+			chaiHttpResponse = await chai
+				.request(app)
+				.get('/teams/50');
+			// assert => espero um resultado
+			expect(chaiHttpResponse.status).to.be.equal(400)
+			expect(chaiHttpResponse.body).to.be.deep.equal({
+				message: "Team não encontrado"
+			})
+    })
 	})
 
 });

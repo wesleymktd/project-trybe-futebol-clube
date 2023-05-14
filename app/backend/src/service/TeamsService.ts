@@ -1,4 +1,4 @@
-import ValidateError from '../errors/ValidateError400';
+import ValidateError400 from '../errors/ValidateError400';
 import TeamsModel, { teamAtributes } from '../database/models/TeamsModel';
 
 export default class TeamsService {
@@ -9,7 +9,7 @@ export default class TeamsService {
 
   public static async getById(id: number): Promise<teamAtributes | null> {
     const findTeam = await TeamsModel.findOne({ where: { id } });
-    if (!findTeam) throw new ValidateError('Team não encontrado');
+    if (!findTeam) throw new ValidateError400('Team não encontrado');
     return findTeam;
   }
 }
