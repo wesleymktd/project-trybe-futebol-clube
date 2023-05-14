@@ -1,7 +1,16 @@
 import { DataTypes, Model } from 'sequelize';
 import sequelize from '.';
 
-class MatchesModel extends Model {
+export interface matchesAtributes {
+  id: number;
+  homeTeamId: string;
+  homeTeamGoals: string;
+  awayTeamId: string;
+  awayTeamGoals: string;
+  inProgress: boolean;
+}
+
+class MatchesModel extends Model<matchesAtributes> {
   declare id: number;
   declare homeTeamId: string;
   declare homeTeamGoals: string;
