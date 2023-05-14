@@ -21,4 +21,23 @@ export default class MatchesService {
 
     return matches;
   }
+
+  public static async filterProgressQuery(query: string) {
+    const matchFilter = await MatchesModel.findAll({
+      where: { inProgress: query === 'true' },
+      attributes: { exclude: ['home_team_id', 'away_team_id'] },
+      include: [
+        {
+          model: TeamsModel,
+          as: 'homeTeam',
+          attributes: { exclude: ['id'] },
+        },
+        {
+          model: TeamsModel,
+          as: 'awayTeam',
+          attributes: { exclude: ['id'] },
+        }],
+    });
+    return matchFilter;
+  }
 }
