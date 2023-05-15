@@ -40,4 +40,14 @@ export default class MatchesService {
     });
     return matchFilter;
   }
+
+  public static async finishMatch(id: number) {
+    await MatchesModel.update({ inProgress: false }, { where: { id } });
+    return { message: 'finished' };
+  }
+
+  // public static async updateMatch(homeTeamGoals: number, awayTeamGoals: number, id: number) {
+  //   await MatchesModel.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+  //   return { message: 'finished' };
+  // }
 }
