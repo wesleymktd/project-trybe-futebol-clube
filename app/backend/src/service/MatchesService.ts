@@ -46,8 +46,8 @@ export default class MatchesService {
     return { message: 'finished' };
   }
 
-  // public static async updateMatch(homeTeamGoals: number, awayTeamGoals: number, id: number) {
-  //   await MatchesModel.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
-  //   return { message: 'finished' };
-  // }
+  public static async updateMatch(homeTeamGoals: number, awayTeamGoals: number, id: number) {
+    await MatchesModel.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+    return { message: 'match updated' };
+  }
 }

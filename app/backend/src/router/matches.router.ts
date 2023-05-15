@@ -10,5 +10,10 @@ matchesRouter.patch(
   (req, res, next) => AuthValidate.tokenVerifiq(req, res, next),
   (req, res) => MatchesController.finishMatch(req, res),
 );
+matchesRouter.patch(
+  '/:id',
+  (req, res, next) => AuthValidate.tokenVerifiq(req, res, next),
+  (req, res) => MatchesController.updateMatch(req, res),
+);
 
 export default matchesRouter;

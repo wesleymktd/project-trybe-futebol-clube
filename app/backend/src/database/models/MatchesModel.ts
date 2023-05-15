@@ -3,19 +3,19 @@ import sequelize from '.';
 
 export interface matchesAtributes {
   id: number;
-  homeTeamId: string;
-  homeTeamGoals: string;
-  awayTeamId: string;
-  awayTeamGoals: string;
+  homeTeamId: number;
+  homeTeamGoals: number;
+  awayTeamId: number;
+  awayTeamGoals: number;
   inProgress: boolean;
 }
 
 class MatchesModel extends Model<matchesAtributes> {
   declare id: number;
-  declare homeTeamId: string;
-  declare homeTeamGoals: string;
-  declare awayTeamId: string;
-  declare awayTeamGoals: string;
+  declare homeTeamId: number;
+  declare homeTeamGoals: number;
+  declare awayTeamId: number;
+  declare awayTeamGoals: number;
   declare inProgress: boolean;
 }
 
