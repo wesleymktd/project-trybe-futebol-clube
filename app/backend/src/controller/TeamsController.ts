@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import ValidateError400 from '../errors/ValidateError400';
 import TeamsService from '../service/TeamsService';
 
 export default class TeamsController {
@@ -10,6 +11,7 @@ export default class TeamsController {
   public static async getById(req: Request, res: Response) {
     const { id } = req.params;
     const team = await TeamsService.getById(Number(id));
+    if (typeof team === 'string') throw new ValidateError400('Team não encontrado');
     res.status(200).json(team);
   }
 }

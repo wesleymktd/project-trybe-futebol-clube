@@ -1,6 +1,9 @@
 import TeamsModel from '../database/models/TeamsModel';
 import MatchesModel from '../database/models/MatchesModel';
 import matchesInsert from '../interface/matchesInsert';
+import TeamsService from './TeamsService';
+import ValidateError422 from '../errors/ValidateError422';
+import ValidateError404 from '../errors/ValidateError404';
 
 export default class MatchesService {
   public static async findAllMatchesWithTeams() {
@@ -53,6 +56,16 @@ export default class MatchesService {
   }
 
   public static async createMatch(matcheInsert: matchesInsert) {
+    if (matcheInsert.awayTeamId === matcheInsert.homeTeamId) {
+      throw new ValidateError422('It is not possible to create a match with two equal teams');
+    }
+    const idHome = await TeamsService.getById(matcheInsert.homeTeamId);
+    const idAway = await TeamsService.getById(matcheInsert.awayTeamId);
+
+    if (typeof idHome === 'string' || typeof idAway === 'string') {
+      throw new ValidateError404('There is no team with such id!');
+    }
+
     const newMatch = await MatchesModel.create({
       ...matcheInsert,
       inProgress: true,
