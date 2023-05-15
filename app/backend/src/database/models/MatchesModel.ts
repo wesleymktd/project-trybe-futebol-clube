@@ -10,7 +10,9 @@ export interface matchesAtributes {
   inProgress: boolean;
 }
 
-class MatchesModel extends Model<matchesAtributes> {
+export type matchCreationAttributes = Omit<matchesAtributes, 'id'>;
+
+class MatchesModel extends Model<matchesAtributes, matchCreationAttributes> {
   declare id: number;
   declare homeTeamId: number;
   declare homeTeamGoals: number;

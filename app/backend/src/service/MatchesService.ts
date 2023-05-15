@@ -1,5 +1,6 @@
 import TeamsModel from '../database/models/TeamsModel';
 import MatchesModel from '../database/models/MatchesModel';
+import matchesInsert from '../interface/matchesInsert';
 
 export default class MatchesService {
   public static async findAllMatchesWithTeams() {
@@ -49,5 +50,13 @@ export default class MatchesService {
   public static async updateMatch(homeTeamGoals: number, awayTeamGoals: number, id: number) {
     await MatchesModel.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
     return { message: 'match updated' };
+  }
+
+  public static async createMatch(matcheInsert: matchesInsert) {
+    const newMatch = await MatchesModel.create({
+      ...matcheInsert,
+      inProgress: true,
+    });
+    return newMatch;
   }
 }
