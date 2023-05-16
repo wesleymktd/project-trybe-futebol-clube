@@ -6,7 +6,7 @@ export default class MatchesController {
     const { inProgress } = req.query;
     if (typeof inProgress === 'string') {
       const filterMatches = await MatchesService.filterProgressQuery(inProgress);
-      res.status(200).json(filterMatches);
+      return res.status(200).json(filterMatches);
     }
     const allMatches = await MatchesService.findAllMatchesWithTeams();
     res.status(200).json(allMatches);
