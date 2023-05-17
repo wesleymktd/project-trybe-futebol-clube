@@ -1,13 +1,34 @@
 import TeamsModel from '../database/models/TeamsModel';
-import MatchesModel from '../database/models/MatchesModel';
+import MatchesModel, { matchesAtributes } from '../database/models/MatchesModel';
 import matchesInsert from '../interface/matchesInsert';
 import TeamsService from './TeamsService';
 import ValidateError422 from '../errors/ValidateError422';
 import ValidateError404 from '../errors/ValidateError404';
 
 export default class MatchesService {
-  public static async findAllMatchesWithTeams() {
+  public static async findAllMatchesWithTeams(): Promise<matchesAtributes[]> {
     const matches = await MatchesModel.findAll({
+      attributes: { exclude: ['home_team_id', 'away_team_id'] },
+      include: [
+        {
+          model: TeamsModel,
+          as: 'homeTeam',
+          attributes: { exclude: ['id'] },
+        },
+        {
+          model: TeamsModel,
+          as: 'awayTeam',
+          attributes: { exclude: ['id'] },
+        },
+      ],
+    });
+
+    return matches;
+  }
+
+  public static async findMatchesById(id: number): Promise<matchesAtributes[]> {
+    const matches = await MatchesModel.findAll({
+      where: { homeTeamId: id, inProgress: false },
       attributes: { exclude: ['home_team_id', 'away_team_id'] },
       include: [
         {
