@@ -13,4 +13,9 @@ leaderBoardRouter.get(
   (req, res) => LeaderBoardController.findAllAwayLeaderBoard(req, res),
 );
 
+leaderBoardRouter.get(
+  '/',
+  (req, res) => LeaderBoardController.findAllGeneralLeaderBoard(req, res),
+);
+
 export default leaderBoardRouter;

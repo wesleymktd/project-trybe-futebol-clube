@@ -26,6 +26,27 @@ export default class LeaderBoardService {
     return result;
   }
 
+  public static async findAllGeneral(Leader: leaderBoard[]) {
+    const teams = await TeamsService.getAll();
+    const resultRedux = teams.map((team) => {
+      const leaderRedux = Leader.filter((match) => match.name === team.teamName);
+      return { name: team.teamName,
+        totalPoints: leaderRedux[0].totalPoints + leaderRedux[1].totalPoints,
+        totalGames: leaderRedux[0].totalGames + leaderRedux[1].totalGames,
+        totalVictories: leaderRedux[0].totalVictories + leaderRedux[1].totalVictories,
+        totalDraws: leaderRedux[0].totalDraws + leaderRedux[1].totalDraws,
+        totalLosses: leaderRedux[0].totalLosses + leaderRedux[1].totalLosses,
+        goalsFavor: leaderRedux[0].goalsFavor + leaderRedux[1].goalsFavor,
+        goalsOwn: leaderRedux[0].goalsOwn + leaderRedux[1].goalsOwn,
+        goalsBalance: leaderRedux[0].goalsBalance + leaderRedux[1].goalsBalance,
+        efficiency: Number((((leaderRedux[0].totalPoints + leaderRedux[1].totalPoints)
+        / ((leaderRedux[0].totalGames + leaderRedux[1].totalGames) * 3)) * 100).toFixed(2)),
+      };
+    });
+    const result = await this.resultSort(resultRedux);
+    return result;
+  }
+
   public static pointsResult(matches: matchesAtributes[], endPoint: string) {
     if (endPoint === 'home') {
       const result = matches.reduce((acc, match) => {
@@ -103,8 +124,9 @@ export default class LeaderBoardService {
     return Number(result.toFixed(2));
   }
 
-  public static async resultSort(endPoint: string) {
-    const origin = await this.findAllLeaderBoard(endPoint);
+  public static async resultSort(endPoint: string | leaderBoard[]) {
+    const origin = typeof endPoint === 'string' ? await this.findAllLeaderBoard(endPoint)
+      : endPoint;
     const sortArray = origin.sort((a, b) => {
       if (a.totalPoints !== b.totalPoints) {
         return b.totalPoints - a.totalPoints;
