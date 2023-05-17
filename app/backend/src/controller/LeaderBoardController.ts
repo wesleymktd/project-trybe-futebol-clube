@@ -3,7 +3,7 @@ import LeaderBoardService from '../service/LeaderBoardService';
 
 export default class LeaderBoardController {
   public static async findAllHomeLeaderBoard(req: Request, res: Response) {
-    const result = await LeaderBoardService.findAllHomeLeaderBoard();
+    const result = await LeaderBoardService.resultSort();
     res.status(200).json(result);
   }
 }
