@@ -26,9 +26,30 @@ export default class MatchesService {
     return matches;
   }
 
-  public static async findMatchesById(id: number): Promise<matchesAtributes[]> {
+  public static async findMatchesHomeById(id: number): Promise<matchesAtributes[]> {
     const matches = await MatchesModel.findAll({
       where: { homeTeamId: id, inProgress: false },
+      attributes: { exclude: ['home_team_id', 'away_team_id'] },
+      include: [
+        {
+          model: TeamsModel,
+          as: 'homeTeam',
+          attributes: { exclude: ['id'] },
+        },
+        {
+          model: TeamsModel,
+          as: 'awayTeam',
+          attributes: { exclude: ['id'] },
+        },
+      ],
+    });
+
+    return matches;
+  }
+
+  public static async findMatchesAwayById(id: number): Promise<matchesAtributes[]> {
+    const matches = await MatchesModel.findAll({
+      where: { awayTeamId: id, inProgress: false },
       attributes: { exclude: ['home_team_id', 'away_team_id'] },
       include: [
         {
