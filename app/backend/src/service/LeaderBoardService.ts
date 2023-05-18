@@ -124,9 +124,9 @@ export default class LeaderBoardService {
     return Number(result.toFixed(2));
   }
 
-  public static async resultSort(endPoint: string | leaderBoard[]) {
-    const origin = typeof endPoint === 'string' ? await this.findAllLeaderBoard(endPoint)
-      : endPoint;
+  public static async resultSort(param: string | leaderBoard[]): Promise<leaderBoard[]> {
+    const origin = typeof param === 'string' ? await this.findAllLeaderBoard(param)
+      : param;
     const sortArray = origin.sort((a, b) => {
       if (a.totalPoints !== b.totalPoints) {
         return b.totalPoints - a.totalPoints;
